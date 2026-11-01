@@ -40,3 +40,14 @@ SELECT
 FROM bucketed
 GROUP BY delivery_bucket
 ORDER BY delivery_bucket;
+
+SELECT
+    c.customer_state,
+    COUNT(*) AS orders,
+    ROUND(AVG(o.order_delivered_customer_date::date - o.order_purchase_timestamp::date), 1) AS avg_delivery_days,
+    ROUND(100.0 * COUNT(*) FILTER (WHERE o.order_delivered_customer_date > o.order_estimated_delivery_date) / COUNT(*), 2) AS pct_late
+FROM orders o
+JOIN customers c ON c.customer_id = o.customer_id
+WHERE o.order_status = 'delivered' AND o.order_delivered_customer_date IS NOT NULL
+GROUP BY c.customer_state
+ORDER BY avg_delivery_days DESC;
