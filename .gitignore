@@ -1,1 +1,13 @@
+# Olist raw data (download from Kaggle)
+data/raw/*
+!data/raw/.gitkeep
 
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
